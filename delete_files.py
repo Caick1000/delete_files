@@ -1,10 +1,10 @@
-from os import listdir, unlink, path
+from os import listdir, unlink, path, walk
 from os.path import getctime, isfile
 from time import time
 
 
-dir_path = 'var/log/'
-dir_path_extension = ['asterisk', 'contact']
+dir_path = 'D:/talkeen/test/var/log/'
+dir_path_extension = ['asterisk/', 'contact/']
 removable_file_extensions = ['log']
 
 current_time = time()
@@ -16,14 +16,16 @@ for i in dir_path_extension:
 
 
 
-def delete_files(dir_path):
+def delete_files(path):
 
-    for file in listdir(dir_path):
-        file_date = getctime(dir_path + file)
-        # if (current_time - file_date) // (24 * 3600) >= minimum_date and removable_file_extensions in file[-3:] and isfile(dir_path):
-        if isfile(dir_path + file) and file[-3:] in removable_file_extensions:
-            # os.unlink(file)
-            print('"{}" removed from directory "{}"'.format(file, dir_path))
+    for root, dirs, files in walk(path):
+        for file in files:
+            print(file, files, root)
+            file_date = getctime(file)
+            # if (current_time - file_date) // (24 * 3600) >= minimum_date and removable_file_extensions in file[-3:] and isfile(path):
+            if isfile(path + file):
+                # unlink(path + file)
+                print('"{}" removed from directory "{}"'.format(file, path))
 
-    
-delete_files('D:/talkeen/')
+
+delete_files(dir_path)
